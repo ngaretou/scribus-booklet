@@ -4,6 +4,12 @@ A process that allows you to quickly lay out an RS/AS booklet intended for just-
 
 #### Depends on the free *Scribus* software, get it here: http://scribus.net for Windows, macOS & Linux
 
+<p align="center">
+  <img src="https://github.com/ngaretou/scribus-booklet/blob/main/examples/printout.jpg">
+  <br>
+  <i>booklets printed on pastel paper showing AS and RS script</i>
+</p>
+
 ## Process highlights
 * Download the Scribus 20-page template and the usfmConversion.py python script here: https://github.com/ngaretou/scribus-booklet/archive/refs/heads/main.zip 
 * Use SFM formatted Paratext files, either open in a text editor or in Paratext in View/Unformatted
