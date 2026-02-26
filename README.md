@@ -44,4 +44,14 @@ A process that allows you to quickly lay out an RS/AS booklet intended for just-
 * Delete unneeded pages via Page/Delete when done to get to multiple of four pages
 * Export to PDF
 * Run through an imposition process that readies the file for print. *PDFDroplet* recommended for Windows https://software.sil.org/pdfdroplet/ - for macOS and Linux use https://online2pdf.com/en/create-a-booklet 
+* Also: 
+  * Double check the copyright statment
+  * Triple check you changed *both* titles
+  * You could just use this same doc to make a monolingual booklet
+  * Preview mode: View/Preview/Preview mode
+  * Hand tool: click in the empty space, press space and release, and you have the grabby hand tool - press space again to go back to normal
 
+<video controls width="600">
+ <source src="https://fdn.al/gallery/booklet-training.mov" type="video/mp4">
+ Your browser does not support the video tag
+</video>
