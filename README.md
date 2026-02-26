@@ -12,6 +12,14 @@ A process that allows you to quickly lay out an RS/AS booklet intended for just-
 
 <video src="https://fdn.al/gallery/booklet-training.mov" width="600" controls></video>
 
+<p align="center">
+  <video src="https://fdn.al/gallery/booklet-training.mov" width="500px"></video>
+</p>
+
+<video src="images/video.mp4" width="320" height="240" controls></video>
+
+![non working video](images/video.mp4)
+
 
 
 ## Process highlights
