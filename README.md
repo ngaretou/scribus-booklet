@@ -10,7 +10,9 @@ A process that allows you to quickly lay out an RS/AS booklet intended for just-
   <i>booklets printed on pastel paper showing AS and RS script</i>
 </p>
 
-https://fdn.al/gallery/booklet-training.mov
+<video src="https://fdn.al/gallery/booklet-training.mov" width="600" controls></video>
+
+
 
 ## Process highlights
 * Get fonts - Charis 7.0 and Harmattan 4.4 from https://software.sil.org/fonts/ 
