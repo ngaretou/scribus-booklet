@@ -10,17 +10,19 @@ A process that allows you to quickly lay out an RS/AS booklet intended for just-
   <i>booklets printed on pastel paper showing AS and RS script</i>
 </p>
 
-<video src="https://fdn.al/gallery/booklet-training.mov" width="600" controls></video>
+<video src="https://fdn.al/gallery/booklet-training.mp4" width="600" controls></video>
 
 <p align="center">
-  <video src="https://fdn.al/gallery/booklet-training.mov" width="500px"></video>
+  <video src="https://fdn.al/gallery/booklet-training.mp4" width="500px"></video>
 </p>
 
-<video src="images/video.mp4" width="320" height="240" controls></video>
+<video src="https://fdn.al/gallery/booklet-training.mp4" width="320" height="240" controls></video>
 
-![non working video](images/video.mp4)
-
-
+<video controls width="640">
+  <source src="https://fdn.al/gallery/booklet-training.mp4" type="video/mp4">
+  <source src="https://fdn.al/gallery/booklet-training.webm" type="video/webm">
+  Your browser does not support HTML5 video.
+</video>
 
 ## Process highlights
 * Get fonts - Charis 7.0 and Harmattan 4.4 from https://software.sil.org/fonts/ 
