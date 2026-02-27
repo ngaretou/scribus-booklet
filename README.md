@@ -3,6 +3,7 @@
 A process that allows you to quickly lay out an RS/AS booklet intended for just-in-time local production of scripture portions or a chronological presentation set. 
 
 #### Depends on the free *Scribus* software, get it here: http://scribus.net for Windows, macOS & Linux
+The script has been tested on Windows and macOS 
 
 <p align="center">
   <img src="https://github.com/ngaretou/scribus-booklet/blob/main/examples/printout.jpg">

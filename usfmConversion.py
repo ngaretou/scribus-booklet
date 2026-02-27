@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# version 1.0
+# version 1.1
 """
 USFM → Scribus (selected story only)
 
@@ -26,12 +26,22 @@ import scribus
 # Values are tuples: (RS_style, AS_style)
 paraStyles = {
     r'\p' : ('pRS',  'pAS'),
+    r'\b' : ('pRS',  'pAS'), 
     r'\s1': ('s1RS', 's1AS'),
+    r'\cl': ('s1RS', 's1AS'),
     r'\ms': ('msRS', 'msAS'),
+    r'\ms1': ('msRS', 'msAS'),
     r'\mr': ('mrRS', 'mrAS'),
+    r'\r': ('rRS', 'rAS'),
+    r'\qa': ('rRS', 'rAS'),
+    r'\d': ('dRS', 'dAS'),
+    r'\q': ('q1RS', 'q1AS'),
     r'\q1': ('q1RS', 'q1AS'),
+    r'\q2': ('q2RS', 'q2AS'),
+    r'\qr': ('qrRS', 'qrAS'),
     r'\m': ('mRS', 'mAS'),
     r'\c': ('cRS', 'cAS'),
+
     # Add more paragraph markers here if needed.
 }
 
@@ -45,8 +55,11 @@ charStyles = {
 # Format: "Old Text" : "New Text"
 # ---------------------------------------------------------------------------
 generalReplacements = {
-    '---': '\u2014', # Em dash
+    '---': '\u2014',        # Em dash
+    
 }
+
+
 
 # If a paragraph marker has no mapping, fall back to this:
 FALLBACK_PARA_MARKER = r'\p'
@@ -56,7 +69,11 @@ FALLBACK_PARA_MARKER = r'\p'
 # ---------------------------------------------------------------------------
 RE_FOOTNOTE  = re.compile(r'\\f\b.*?\\f\*', flags=re.S)                      # remove \f ... \f*
 RE_WORD_LEFT = re.compile(r'\\\+?w\s+([^|\\]+)\|.*?\\\+?w\*', flags=re.S)    # keep left of '|' for \w / \+w
-RE_QS_UNWRAP = re.compile(r'\\qs\b\s*(.*?)\\qs\*', flags=re.S)               # unwrap \qs ... \qs*
+
+# RE_W_GLOSSED = re.compile(r'\\\+?w\s+([^|\\\n\r]+)\|.*?\\\+?w\*', flags=re.S)
+RE_W_SIMPLE  = re.compile(r'\\\+w\s+([^\\]+?)\\\+w\*', flags=re.S)            # \+w Selah\+w* > Selah
+
+RE_QS_UNWRAP = re.compile(r'\\qs\b\s*(.*?)\\qs\*', flags=re.S)               # unwrap \qs ... \qs* > \qs Selaw.\qs*
 
 # ---------------------------------------------------------------------------
 # 3) INTERNALS
@@ -219,11 +236,15 @@ def parse_usfm_to_story(usfm_text, script):
     for old, new in generalReplacements.items():
         usfm_text = usfm_text.replace(old, new)
 
+
     # 1) Strip footnotes entirely
     t = RE_FOOTNOTE.sub('', usfm_text)
 
-    # 2) Keep only left side for \w / \+w and remove those wrappers
+    # 2.1) Keep only left side for \w / \+w and remove those wrappers
     t = RE_WORD_LEFT.sub(lambda m: m.group(1), t)
+
+    # 2.2) \+w Selah\+w* > Selah
+    t = RE_W_SIMPLE.sub(lambda m: m.group(1), t)
 
     # 3) Unwrap \qs … \qs* (keep inner text)
     t = RE_QS_UNWRAP.sub(lambda m: normalize_whitespace(m.group(1)), t)
@@ -282,7 +303,7 @@ def parse_usfm_to_story(usfm_text, script):
 
         pos = m.end()
 
-        if m.group('pm'):  # paragraph marker matched (space is not captured)
+        if m.group('pm'):  # paragraph marker matched (space not captured)
             # Commit previous paragraph if it has content
             para_text = ''.join(buf).strip()
             if para_text:
@@ -293,8 +314,27 @@ def parse_usfm_to_story(usfm_text, script):
                     'has_verse': has_verse,
                     'first_verse_num': first_verse_num
                 })
-            # start a new paragraph
+
             code = '\\' + m.group('pm')  # pm has no trailing space
+
+            # --- SPECIAL CASE: \b (blank line) produces a one‑NBSP paragraph ---
+            if code == r'\b':
+                paragraphs.append({
+                    'code': r'\b',
+                    'text': '\u00A0',   # NBSP placeholder so style applies
+                    'spans': [],
+                    'has_verse': False,
+                    'first_verse_num': None
+                })
+                # After a blank line, start fresh using fallback paragraph type
+                current_code = FALLBACK_PARA_MARKER
+                buf, spans = [], []
+                has_verse = False
+                first_verse_num = None
+                continue
+            # -------------------------------------------------------------------
+
+            # Normal paragraph start
             current_code = code if code in paraStyles else FALLBACK_PARA_MARKER
             buf, spans = [], []
             has_verse = False
